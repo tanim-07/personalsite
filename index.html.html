@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanim's Romantic Site</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#3b0026,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation:floatUp linear infinite;
+  opacity:0.6;
+}
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:0}
+  to{transform:translateY(-120vh);opacity:1}
+}
+
+.card{
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(15px);
+  border-radius:22px;
+  padding:30px;
+  width:92%;
+  max-width:360px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,105,180,0.4);
+  animation:fadeSlide 1.2s ease;
+}
+@keyframes fadeSlide{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+h1{color:#ffb6d9}
+p{opacity:.9}
+
+button{
+  border:none;
+  padding:12px 24px;
+  margin:10px;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+}
+.yes{
+  background:#ff4f9a;
+  color:#fff;
+  animation:pulse 1.5s infinite;
+}
+.no{
+  background:#111;
+  color:#fff;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 10px #ff4f9a}
+  50%{box-shadow:0 0 30px #ff4f9a}
+  100%{box-shadow:0 0 10px #ff4f9a}
+}
+
+.secret{margin-top:20px;opacity:.7;cursor:pointer}
+.count{font-size:50px;color:#ff4f9a}
+.miss{font-size:42px;color:#ff4f9a;animation:pulse 2s infinite}
+
+.particle{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:pink;
+  border-radius:50%;
+  animation:particle 1.5s linear forwards;
+}
+@keyframes particle{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-80px);opacity:0}
+}
+
+.video-wrapper{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  margin-top:15px;
+  animation:fadeSlide 1s ease;
+}
+.video-wrapper iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border-radius:16px;
+  border:none;
+}
+
+.video-fallback{
+  margin-top:15px;
+  padding:15px;
+  background:rgba(0,0,0,0.4);
+  border-radius:15px;
+  font-size:14px;
+}
+.video-fallback a{
+  color:#ffb6d9;
+  text-decoration:none;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app" class="card">
+  <h1>Hey… I’m glad you’re here 💗</h1>
+  <p>
+    Welcome to Tanim’s site.<br>
+    I personally designed this just for you.<br>
+    Are you excited to visit this site?
+  </p>
+
+  <button class="yes" onclick="yesPage()">Yes 💖</button>
+  <button class="no" onclick="noAction(this)">No</button>
+
+  <div class="secret" onclick="secret1()">🔒 secret</div>
+</div>
+
+<script>
+const app=document.getElementById("app");
+
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText=["💗","💕","💖"][Math.floor(Math.random()*3)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+},800);
+
+function noAction(btn){
+  btn.classList.add("shake");
+  setTimeout(()=>alert("Fuck off 😈"),200);
+}
+
+function yesPage(){
+  app.innerHTML=`
+  <h1>Do you want to know how I’m feeling right now?</h1>
+  <p>If you want to know, then play the song below and enjoy it 💗</p>
+  <button id="playBtn" class="yes" onclick="playVideo()">▶ Play</button><br>
+  <button onclick="home()">← Back</button>`;
+}
+
+function playVideo(){
+  const btn=document.getElementById("playBtn");
+  if(btn) btn.style.display="none";
+
+  app.innerHTML+=`
+  <div class="video-wrapper">
+    <iframe 
+      src="https://www.youtube.com/embed/NxfzbXTBE2Y?start=19&playsinline=1"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <div class="video-fallback">
+    If the video doesn’t load, 
+    <a href="https://youtu.be/NxfzbXTBE2Y?t=19" target="_blank">
+      tap here to open on YouTube
+    </a>
+  </div>`;
+  musicParticles();
+}
+
+function musicParticles(){
+  const i=setInterval(()=>{
+    const p=document.createElement("div");
+    p.className="particle";
+    p.style.left=(50+Math.random()*100-50)+"px";
+    p.style.bottom="50%";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1500);
+  },150);
+  setTimeout(()=>clearInterval(i),4000);
+}
+
+function secret1(){
+  app.innerHTML=`
+  <p>This message is only for special people.</p>
+  <button class="yes" onclick="secret2()">Yes, I understand</button><br>
+  <button onclick="home()">← Back</button>`;
+}
+
+function secret2(){
+  app.innerHTML=`
+  <p>Are you sure you are someone special to Tanim?</p>
+  <button class="yes" onclick="countdown()">Yes</button>
+  <button class="no" onclick="notForYou()">No</button>`;
+}
+
+function countdown(){
+  let c=5;
+  app.innerHTML=`<div class="count">${c}</div>`;
+  const i=setInterval(()=>{
+    c--;
+    app.innerHTML=`<div class="count">${c}</div>`;
+    if(c===0){
+      clearInterval(i);
+      app.innerHTML=`<div class="miss">MISS YOU</div>`;
+    }
+  },1000);
+}
+
+function notForYou(){
+  alert("Sorry, this message is not meant for you.");
+}
+
+function home(){location.reload();}
+</script>
+
+</body>
+</html>
